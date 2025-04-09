@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Network Traffic Analyzer</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <header>
+        <h1>Network Traffic Analyzer</h1>
+    </header>
+    
+    <div class="controls">
+        <div class="control-group">
+            <label for="interface-select">Network Interface:</label>
+            <select id="interface-select">
+                <option value="" disabled selected>Loading interfaces...</option>
+            </select>
+        </div>
+        <div class="control-group">
+            <button id="start-button" disabled>Start Capture</button>
+            <button id="stop-button" disabled>Stop Capture</button>
+        </div>
+    </div>
+    
+    <div class="status-panel">
+        <div class="status-item" id="total-packets">Total Packets: 0</div>
+        <div class="status-item" id="packet-rate">Packet Rate: 0 packets/sec</div>
+        <div class="status-item" id="anomaly-status">Status: Idle</div>
+    </div>
+    
+    <div class="dashboard">
+        <div class="chart-container">
+            <h2>Traffic Rate</h2>
+            <canvas id="traffic-chart"></canvas>
+        </div>
+        <div class="chart-container">
+            <h2>Protocol Distribution</h2>
+            <canvas id="protocol-chart"></canvas>
+        </div>
+    </div>
+    
+    <div class="data-tables">
+        <div class="data-table">
+            <h2>Protocol Statistics</h2>
+            <table id="protocol-table">
+                <thead>
+                    <tr>
+                        <th>Protocol</th>
+                        <th>Count</th>
+                        <th>Percentage</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Protocol data will be inserted here -->
+                </tbody>
+            </table>
+        </div>
+        <div class="data-table">
+            <h2>Top Sources</h2>
+            <table id="sources-table">
+                <thead>
+                    <tr>
+                        <th>IP Address</th>
+                        <th>Packet Count</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Source IP data will be inserted here -->
+                </tbody>
+            </table>
+        </div>
+        <div class="data-table">
+            <h2>Top Destinations</h2>
+            <table id="destinations-table">
+                <thead>
+                    <tr>
+                        <th>IP Address</th>
+                        <th>Packet Count</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Destination IP data will be inserted here -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+    
+    <div class="log-container">
+        <h2>Activity Log</h2>
+        <div id="log-panel">
+            <div class="log-entry">System initialized. Select a network interface to begin.</div>
+        </div>
+    </div>
+    
+    <script src="js/charts.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>
