@@ -1,0 +1,65 @@
+<project name="NetworkTrafficAnalyzer" default="build" basedir=".">
+    <description>Network Traffic Analyzer Build File</description>
+    
+    <!-- Set global properties for this build -->
+    <property name="src" location="main"/>
+    <property name="build" location="build"/>
+    <property name="dist" location="dist"/>
+    <property name="lib" location="lib"/>
+    
+    <!-- Define libraries needed -->
+    <path id="project.classpath">
+        <fileset dir="${lib}">
+            <include name="**/*.jar"/>
+        </fileset>
+    </path>
+    
+    <!-- Initialize build -->
+    <target name="init">
+        <mkdir dir="${build}"/>
+    </target>
+    
+    <!-- Compile the code -->
+    <target name="compile" depends="init" description="compile the source">
+        <javac srcdir="${src}" destdir="${build}" includeantruntime="false">
+            <classpath refid="project.classpath"/>
+        </javac>
+        
+        <!-- Copy webapp resources -->
+        <copy todir="${build}/webapp">
+            <fileset dir="${src}/webapp"/>
+        </copy>
+    </target>
+    
+    <!-- Create the distribution jar -->
+    <target name="dist" depends="compile" description="generate the distribution">
+        <mkdir dir="${dist}"/>
+        
+        <!-- Build jar file -->
+        <jar jarfile="${dist}/NetworkTrafficAnalyzer.jar" basedir="${build}">
+            <manifest>
+                <attribute name="Main-Class" value="com.netanalyzer.NetAnalyzerServer"/>
+                <attribute name="Class-Path" value="."/>
+            </manifest>
+        </jar>
+        
+        <!-- Copy dependencies -->
+        <copy todir="${dist}/lib">
+            <fileset dir="${lib}"/>
+        </copy>
+        
+        <!-- Copy startup scripts -->
+        <copy file="run.bat" todir="${dist}"/>
+        <copy file="run.sh" todir="${dist}"/>
+        <chmod file="${dist}/run.sh" perm="755"/>
+    </target>
+    
+    <!-- Clean up -->
+    <target name="clean" description="clean up">
+        <delete dir="${build}"/>
+        <delete dir="${dist}"/>
+    </target>
+    
+    <!-- Default target -->
+    <target name="build" depends="dist"/>
+</project>
